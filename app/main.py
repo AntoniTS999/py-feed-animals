@@ -13,13 +13,13 @@ class Animal:
     def print_name(self) -> None:
         print(f"Hello, I'm {self.name}")
 
-    def feed(self) -> None | int:
+    def feed(self) -> int:
+        if not self.is_hungry:
+            return 0
         if self.is_hungry:
             print(f"Eating {self.appetite} food points...")
-            self.is_hungry = not self.is_hungry
+            self.is_hungry = False
             return self.appetite
-        else:
-            return 0
 
 
 class Cat(Animal):
@@ -38,10 +38,5 @@ class Dog(Animal):
         print("The slippers delivered!")
 
 
-def feed_animals(animals: list[Animal]) -> None:
-    counter = 0
-    for animal in animals:
-        if animal.is_hungry:
-            counter += animal.appetite
-            animal.feed()
-    return counter
+def feed_animals(animals: list[Animal]) -> int:
+    return sum(animal.feed() for animal in animals)
